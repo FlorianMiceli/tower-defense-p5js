@@ -57,7 +57,7 @@ global_data = {
 
 function preload() {
 	backgroundImage = loadImage(`./levels/level${currentLevel}.png`);
-	font = loadFont('./font.ttf');
+	font = loadFont('./assets/font.ttf');
 
 	towers_assets = {};
 	let towers_this_level = global_data[`level${currentLevel}`]["towersAvailable"];
