@@ -1,6 +1,0 @@
-- tower class
-    idée : ajouter les instances dans le layout global
-- tower focus 
-- tower shoot and hit
-- start and select level interface
-- game over interface
