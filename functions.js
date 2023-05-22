@@ -80,14 +80,14 @@ function indexToPosition(index,layout) {
 }
 
 function positionToIndex(position,layout) {
-    nombreDeCasesX=layout[0].length;
-    nombreDeCasesY=layout.length;
-    for(let i=0; i<layout.length;i++){
-        for(let j=0; j<layout.length;j++){
+    let nbCellsX = layout[0].length;
+    let nbCellsY = layout.length;
+    for(let i=0; i<nbCellsX; i++){
+        for(let j=0; j<nbCellsY; j++){
             let x = position[0];
             let y = position[1];
-            let indexX = Math.floor(x/(canvasWidth/nombreDeCasesX));
-            let indexY = Math.floor(y/(canvasWidth/nombreDeCasesY));
+            let indexX = Math.floor(x/(canvasWidth/nbCellsX));
+            let indexY = Math.floor(y/(canvasWidth/nbCellsY));
             return( [indexX,indexY] );
         }
     }

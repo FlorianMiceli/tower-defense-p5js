@@ -1,50 +1,71 @@
 class towerClass {
     constructor(current_index, tower_id) {
+        let layout = global_data[`level${currentLevel}`]["layout"];
         this.currentIndex = current_index;
         this.tower_id = tower_id;
+        this.rect_x = indexToPosition(this.currentIndex,layout)[1]-(canvasWidth /layout[0].length)/2.3;
+        this.rect_y = indexToPosition(this.currentIndex,layout)[0]-(canvasHeight/layout[0].length)/2.3;
+        this.width_x = (canvasWidth/layout[0].length)/1.15;
+        this.height_y = (canvasHeight/layout[0].length)/1.15;
+        this.img = towers_assets[`${this.tower_id}`];
+        this.rotation = 0;
+        this.range = assets["towers"][this.tower_id]["range"];
+        this.pixel_range = this.range * (canvasWidth/layout[0].length);
     }
     update() {
-
+        // rotate to face nearest enemy
+        this.centerX = this.rect_x + this.width_x/2;
+        this.centerY = this.rect_y + this.height_y/2;
+        this.nearestEnemy = returnNearestEnemyInRange(this.pixel_range, this.centerX, this.centerY);
+        if( this.nearestEnemy != null){
+            let dx = this.nearestEnemy.currentPosX - this.centerX;
+            let dy = this.nearestEnemy.currentPosY - this.centerY;
+            this.rotation = Math.atan2(dy, dx) + radians(90);
+        }
+        // shoot
+        
     }
     display() {
-
+        displayTowerWithRotation(this.img, this.rect_x, this.rect_y, this.width_x, this.height_y, this.rotation);
+        // draw range if mouse on tower and tower panel closed
+        if(
+               mouseX >= this.rect_x && mouseX <= this.rect_x + this.width_x
+            && mouseY >= this.rect_y && mouseY <= this.rect_y + this.height_y
+            && !tower_panel_opened
+        ){
+            // black transparent ellipse
+            fill(0,0,0,100);
+            stroke(0,0,0,100);
+            strokeWeight(1);
+            ellipse(this.centerX, this.centerY, this.pixel_range*2)
+        }
     }
 }
 
 function clickToPlaceTower(x,y){
-	let layout = global_data[`level${currentLevel}`]["layout"]
+	let layout = global_data[`level${currentLevel}`]["layout"];
 	let index = positionToIndex([y,x],layout);
     let price_selected_tower = assets["towers"][selectedTower]["price"];
     if(
         layout[index[0]][index[1]] === 0
         && currentMoney >= price_selected_tower
     ){
-        global_data['level1']['layout'][index[0]][index[1]] = selectedTower;
+        // global_data[`level${currentLevel}`]['layout'][index[0]][index[1]] = selectedTower;
+        global_data[`level${currentLevel}`]['layout'][index[0]][index[1]] = new towerClass(index, selectedTower);
         currentMoney -= price_selected_tower;
     }
 }
 
 function updateTowers(){
-	// for every case of the grid, display the tower according to its name in the global layout
+	// for every cell of the grid, update and display the tower according to its name in the global layout
 	let layout = global_data[`level${currentLevel}`]["layout"];
-	let towers = global_data[`level${currentLevel}`]["towersAvailable"];
     for(var i = 0; i < layout.length; i++){
         for(var j = 0; j < layout[i].length; j++){
-			for(let tower of towers){
-                if(layout[i][j] instanceof towerClass){
-                    let one_tower = layout[i][j];
-                    one_tower.display();
-                }
-
-				if(layout[i][j] === tower){
-
-					let rect_x = indexToPosition([i,j],layout)[1]-(canvasWidth /layout[0].length)/2.3;
-					let rect_y = indexToPosition([i,j],layout)[0]-(canvasHeight/layout[0].length)/2.3;
-					let end_x = (canvasWidth/layout[0].length)/1.15;
-					let end_y = (canvasHeight/layout[0].length)/1.15;
-					image(towers_assets[`${tower}`], rect_x, rect_y, end_x, end_y);
-				}
-			}
+            if(layout[i][j] instanceof towerClass){
+                let one_tower = layout[i][j];
+                one_tower.display();
+                one_tower.update();
+            }
         }
     }
 }
@@ -80,24 +101,24 @@ function displayTowerPanel(){
             stroke(0);
             let line_start_x = indexToTopLeftHandCornerPostion([i+1,0],layout)[1]
 			let line_start_y = indexToTopLeftHandCornerPostion([i+1,0],layout)[0]
-            let line_end_x = indexToTopRightHandCornerPostion([i+1,1],layout)[1]-4
-            let line_end_y = indexToTopRightHandCornerPostion([i+1,1],layout)[0]
+            let line_width_x = indexToTopRightHandCornerPostion([i+1,1],layout)[1]-4
+            let line_height_y = indexToTopRightHandCornerPostion([i+1,1],layout)[0]
             strokeWeight(1);
-            line(line_start_x, line_start_y, line_end_x, line_end_y);
+            line(line_start_x, line_start_y, line_width_x, line_height_y);
             // image
 			let rect_x = indexToPosition([i+1,0],layout)[1]-(canvasWidth /layout[0].length)/2.3;
 			let rect_y = indexToPosition([i+1,0],layout)[0]-(canvasHeight/layout[0].length)/2.3;
-			let end_x = (canvasWidth/layout[0].length)/1.15;
-			let end_y = (canvasHeight/layout[0].length)/1.15;
-			image(towers_assets[`${tower}`], rect_x, rect_y, end_x, end_y);
+			let width_x = (canvasWidth/layout[0].length)/1.15;
+			let height_y = (canvasHeight/layout[0].length)/1.15;
+			image(towers_assets[`${tower}`], rect_x, rect_y, width_x, height_y);
             // price
             fill(240,153,24);
             noStroke();
             textSize(9.5);
             text(
                 assets["towers"][tower]["price"]+'$', 
-                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+end_x/2-30, 
-                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+end_y-3
+                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-30, 
+                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-3
             );
             // description
             fill(100);
@@ -105,8 +126,8 @@ function displayTowerPanel(){
             textSize(9.5);
             text(
                 assets["towers"][tower]["desc"],
-                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+end_x/2-30,
-                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+end_y-49
+                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-30,
+                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-49
             );
 		}
 	}
@@ -128,17 +149,32 @@ function selectThisTower(tower){
     selectedTower = tower;
 }
 
-function returnNearestEnemyInRange(range, x, y){
-    let enemies = global_data[`level${currentLevel}`]["enemies"];
+function returnNearestEnemyInRange(range, tower_x, tower_y){
+    let enemies = global_data[`level${currentLevel}`]["enemiesAlive"];
     let enemy_in_range = null;
     let min_distance = range;
-    for(let enemy of enemies){
-        let distance = Math.sqrt(Math.pow(enemy[0]-x,2)+Math.pow(enemy[1]-y,2));
+    for(let enemy in enemies){
+        let one_enemy = enemies[enemy];
+        // get x coordinate of the enemy, being an instance of the enemy class
+        let enemy_x = one_enemy.currentPosX;
+        let enemy_y = one_enemy.currentPosY;
+        // distance between the tower and the enemy
+        let distance = dist(tower_x, tower_y, enemy_x, enemy_y);
         if(distance < range && distance < min_distance){
-            enemy_in_range = enemy;
+            enemy_in_range = enemies[enemy];
             min_distance = distance;
         }
     }
-    return enemy_in_range;
+    if(min_distance <= range){
+        return enemy_in_range;
+    }else{ return null }
 }
 
+function displayTowerWithRotation(img, start_x, start_y, width_im, height_im, radianAngle){
+    push();
+    translate(start_x + width_im/2, start_y + height_im/2);
+    rotate(radianAngle);
+    translate(-start_x - width_im/2, -start_y - height_im/2);
+    image(img, start_x, start_y, width_im, height_im);
+    pop();
+}

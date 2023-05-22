@@ -20,11 +20,11 @@ assets = {
 		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4}
 	},
 	"towers" : {
-		"t1" : {"price" : 100,  "desc" : "Test"},
-		"t2" : {"price" : 200,  "desc" : "Test"},
-		"t3" : {"price" : 500,  "desc" : "Canon"},
-		"t4" : {"price" : 1000, "desc" : "Test"},
-		"t5" : {"price" : 2000, "desc" : "Test"}
+		"t1" : {"price" : 100,  "desc" : "Test" , "range" : 3},
+		"t2" : {"price" : 200,  "desc" : "Test" , "range" : 2},
+		"t3" : {"price" : 500,  "desc" : "Canon", "range" : 2},
+		"t4" : {"price" : 1000, "desc" : "Test" , "range" : 2},
+		"t5" : {"price" : 2000, "desc" : "Test" , "range" : 2}
 	}
 }
 
@@ -83,7 +83,6 @@ function draw() {
 	removeElements();
 
 	background(backgroundImage);
-
 	
 	updateEnemies();
 	handleWaves();
@@ -107,6 +106,15 @@ function draw() {
 	drawResources();
 	displayWaveInterface();
 	wavesEndDetection();
+
+
+	// let layout = global_data[`level${currentLevel}`]["layout"];
+	// for(let i = 0;i<layout.length; i++){
+	// 	console.log(layout[i])
+	// }
+	// console.log('----------------')
+	
+
 	
 	// console.log(mouseX, mouseY);
 }
