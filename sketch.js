@@ -20,11 +20,11 @@ assets = {
 		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4}
 	},
 	"towers" : {
-		"t1" : {"price" : 100,  "desc" : "Test" , "range" : 3},
-		"t2" : {"price" : 200,  "desc" : "Test" , "range" : 2},
-		"t3" : {"price" : 500,  "desc" : "Canon", "range" : 2},
-		"t4" : {"price" : 1000, "desc" : "Test" , "range" : 2},
-		"t5" : {"price" : 2000, "desc" : "Test" , "range" : 2}
+		"t1" : {"price" : 100,  "title" : "Warda"  , "range" : 1.5, "fireRate" : 10, "bulletSpeed" : 10},
+		"t2" : {"price" : 200,  "title" : "Gleindah" , "range" : 3  , "fireRate" : 10, "bulletSpeed" : 10},
+		"t3" : {"price" : 500,  "title" : "Tchoka"  , "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10},
+		"t4" : {"price" : 1000, "title" : "Blakata", "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10},
+		"t5" : {"price" : 2000, "title" : "Zgoulav", "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10}
 	}
 }
 
@@ -46,6 +46,7 @@ global_data = {
         "background": "level1.png",
         "enemiesAlive" : [],
 		"towersPlaced" : [],
+		"bulletsTravelling" : [],
 		"towersAvailable" : ["t1", "t2", "t3", "t4", "t5"],
 		"waves" : {
 			"1" : { "enemies" : { "e2" : 5 , "e3" : 3} },
@@ -67,6 +68,7 @@ function preload() {
 
 	tower_panel = loadImage('./assets/selection_panel.png');
 	play_button = loadImage('./assets/play_button.png');
+	range_icon = loadImage('./assets/range_icon.png');
 }
 
 function setup() {
@@ -113,8 +115,6 @@ function draw() {
 	// 	console.log(layout[i])
 	// }
 	// console.log('----------------')
-	
-
 	
 	// console.log(mouseX, mouseY);
 }

@@ -22,11 +22,17 @@ class towerClass {
             let dy = this.nearestEnemy.currentPosY - this.centerY;
             this.rotation = Math.atan2(dy, dx) + radians(90);
         }
-        // shoot
+        // shoot every x frames
+        if(frameCount % assets["towers"][this.tower_id]["fireRate"] === 0){
+            if(this.nearestEnemy != null){
+                let one_bullet = new bulletClass(this.currentIndex, this.tower_id, this.rotation);
+                global_data[`level${currentLevel}`]["bulletsTravelling"].push(one_bullet);
+            }
+        }
         
     }
     display() {
-        displayTowerWithRotation(this.img, this.rect_x, this.rect_y, this.width_x, this.height_y, this.rotation);
+        displayWithRotation(this.img, this.rect_x, this.rect_y, this.width_x, this.height_y, this.rotation);
         // draw range if mouse on tower and tower panel closed
         if(
                mouseX >= this.rect_x && mouseX <= this.rect_x + this.width_x
@@ -39,6 +45,45 @@ class towerClass {
             strokeWeight(1);
             ellipse(this.centerX, this.centerY, this.pixel_range*2)
         }
+    }
+}
+
+class bulletClass{
+    constructor(current_index, tower_id, rotation) {
+        let layout = global_data[`level${currentLevel}`]["layout"];
+        this.currentIndex = current_index;
+        this.tower_id = tower_id;
+        this.rotation = rotation;
+        this.rect_x = indexToPosition(this.currentIndex,layout)[1]-(canvasWidth /layout[0].length)/2.3;
+        this.rect_y = indexToPosition(this.currentIndex,layout)[0]-(canvasHeight/layout[0].length)/2.3;
+        this.width_x = (canvasWidth/layout[0].length)/1.15;
+        this.height_y = (canvasHeight/layout[0].length)/1.15;
+        this.img = bullets_assets[`${this.tower_id}`];
+        this.speed = assets["towers"][this.tower_id]["bulletSpeed"];
+        this.centerX = this.rect_x + this.width_x/2;
+        this.centerY = this.rect_y + this.height_y/2;
+        this.nearestEnemy = returnNearestEnemyInRange(this.pixel_range, this.centerX, this.centerY);
+        this.targetX = this.nearestEnemy.currentPosX;
+        this.targetY = this.nearestEnemy.currentPosY;
+        this.dx = this.targetX - this.centerX;
+        this.dy = this.targetY - this.centerY;
+        this.distanceToTarget = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        this.velocityX = (this.dx / this.distanceToTarget) * this.speed;
+        this.velocityY = (this.dy / this.distanceToTarget) * this.speed;
+        this.hit = false;
+    }
+    update() {
+        this.centerX += this.velocityX;
+        this.centerY += this.velocityY;
+        if(this.distanceToTarget < this.speed){
+            this.hit = true;
+            this.nearestEnemy.health -= assets["towers"][this.tower_id]["damage"];
+        }
+        //rotation
+        this.rotation = Math.atan2(this.velocityY, this.velocityX) + radians(90);
+    }
+    display() {
+        displayWithRotation(this.img, this.centerX, this.centerY, this.width_x, this.height_y, this.rotation);
     }
 }
 
@@ -67,6 +112,16 @@ function updateTowers(){
                 one_tower.update();
             }
         }
+    }
+}
+
+function updateBullets(){
+    // for every bullet, update and display it
+    let bullets = global_data[`level${currentLevel}`]["bulletsTravelling"];
+    for(let i = 0; i < bullets.length; i++){
+        let one_bullet = bullets[i];
+        one_bullet.display();
+        one_bullet.update();
     }
 }
 
@@ -116,19 +171,35 @@ function displayTowerPanel(){
             noStroke();
             textSize(9.5);
             text(
-                assets["towers"][tower]["price"]+'$', 
+                '$ '+assets["towers"][tower]["price"], 
                 (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-30, 
                 (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-3
             );
-            // description
+            // title
             fill(100);
             noStroke();
             textSize(9.5);
             text(
-                assets["towers"][tower]["desc"],
+                assets["towers"][tower]["title"],
                 (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-30,
-                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-49
+                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-48
             );
+            // range
+            fill(0,0,0,100);
+            stroke(0,0,0,100);
+            strokeWeight(1);
+            image(
+                range_icon, 
+                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-30, 
+                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-33, 
+                13, 
+                13
+            );
+            text(
+                assets["towers"][tower]["range"],
+                (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-13,
+                (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-21.5
+            )
 		}
 	}
 	else{
@@ -140,7 +211,6 @@ function displayTowerPanel(){
 			text("Selected\n  Tower", 8, 55);
 			//tower 4x smaller than the tower panel
 			image(towers_assets[`${selectedTower}`], 20, 6, 34.75, 34.75);
-			
 		}
 	}
 }
@@ -170,7 +240,7 @@ function returnNearestEnemyInRange(range, tower_x, tower_y){
     }else{ return null }
 }
 
-function displayTowerWithRotation(img, start_x, start_y, width_im, height_im, radianAngle){
+function displayWithRotation(img, start_x, start_y, width_im, height_im, radianAngle){
     push();
     translate(start_x + width_im/2, start_y + height_im/2);
     rotate(radianAngle);
