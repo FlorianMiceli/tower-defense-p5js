@@ -2,7 +2,7 @@
 let canvasWidth = 700;
 let canvasHeight = 700;
 let currentLevel = "1";
-let currentMoney = 50000 
+let currentMoney = 2000 
 let currentHealth = 100;
 let gameBoard;
 let currentWave = 0;
@@ -13,18 +13,18 @@ let levelsWon = [];
 
 assets = {
 	"enemies" : {
-		"e1" : {"life" : 100, "color" : [255, 0, 0], "speed" : 1},
+		"e1" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 1},
 		"e2" : {"life" : 200, "color" : [0, 106, 255], "speed" : 5},
-		"e3" : {"life" : 500, "color" : [255, 0, 0], "speed" : 6},
-		"e4" : {"life" : 100, "color" : [255, 0, 0], "speed" : 5},
+		"e3" : {"life" : 500, "color" : [255, 0, 0]  , "speed" : 6},
+		"e4" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 5},
 		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4}
 	},
 	"towers" : {
-		"t1" : {"price" : 100 , "title" : "Warda"   ,"range" : 1.5, "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw1"},
-		"t2" : {"price" : 200 , "title" : "Gleindah","range" : 3  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw2"},
-		"t3" : {"price" : 500 , "title" : "Tchoka"  ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw3"},
-		"t4" : {"price" : 1000, "title" : "Blakata" ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw4"},
-		"t5" : {"price" : 2000, "title" : "Zgoulav" ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw5"}
+		"t1" : {"price" : 100 , "title" : "Arc"     ,"range" : 1.5, "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw1", "damage" : 50 },
+		"t2" : {"price" : 200 , "title" : "Archer"  ,"range" : 4  , "fireRate" : 30, "bulletSpeed" : 3 , "bullet" : "tw2", "damage" : 100},
+		"t3" : {"price" : 500 , "title" : "Canon"   ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw3", "damage" : 100},
+		"t4" : {"price" : 1000, "title" : "Minigun" ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw4", "damage" : 100},
+		"t5" : {"price" : 2000, "title" : "RocketX" ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw5", "damage" : 100}
 	}
 }
 
@@ -108,14 +108,13 @@ function draw() {
 	button.position(600, 600);
 	button.mousePressed(clearEnemiesButton);
 	
-	// Draw grid
 	displayGrid(global_data[`level${currentLevel}`]["layout"]);
-	// Draw HUD elements
+
 	drawResources();
 	displayWaveInterface();
 	wavesEndDetection();
 
-
+	let nb_enemies = global_data[`level${currentLevel}`]["enemiesAlive"].length;
 	// let layout = global_data[`level${currentLevel}`]["layout"];
 	// for(let i = 0;i<layout.length; i++){
 	// 	console.log(layout[i])

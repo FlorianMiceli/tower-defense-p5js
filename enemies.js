@@ -28,10 +28,11 @@ class enemyClass {
         // end of the path => destroy the enemy, remove a life
         if ( 
             compareArrays (
-                positionToIndex([this.destinationPosX,this.destinationPosY],global_data[`level${currentLevel}`]["layout"]), 
+                positionToIndex([this.currentPosX,this.currentPosY],global_data[`level${currentLevel}`]["layout"]), 
                 findOnlyIndex(this.enemy_layout, 4)
             )
         ) { 
+            this.life = 0;
             this.destroy();
             currentHealth -= 1;
         }
@@ -74,6 +75,9 @@ class enemyClass {
                     indexToPosition(this.index,global_data[`level${currentLevel}`]["layout"])[1]+(canvasWidth/this.enemy_layout.length)/3
                 );
             }
+        }
+        if(this.life <= 0){
+            this.destroy();
         }
     }
 

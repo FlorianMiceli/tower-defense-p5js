@@ -39,15 +39,24 @@ function displayGrid(layout) {
 	for(let i = 0; i < layout.length; i++){
 		for(let j = 0; j < layout[i].length; j++){
 			// only when nearby : tower placing
-			if(mouseX < indexToPosition([i,j],layout)[0] + (canvasWidth/layout.length)/2 
-			&& mouseX > indexToPosition([i,j],layout)[0] - (canvasWidth/layout.length)/2 
-			&& mouseY < indexToPosition([i,j],layout)[1] + (canvasWidth/layout.length)/2 
-			&& mouseY > indexToPosition([i,j],layout)[1] - (canvasWidth/layout.length)/2){
+            let x = indexToPosition([i,j],layout)[0];
+            let y = indexToPosition([i,j],layout)[1];
+			if(mouseX < x + (canvasWidth/layout.length)/2 
+			&& mouseX > x - (canvasWidth/layout.length)/2 
+			&& mouseY < y + (canvasWidth/layout.length)/2 
+			&& mouseY > y - (canvasWidth/layout.length)/2
+            ){
 				if(layout[j][i] == 0 && !tower_panel_opened){
+                    // cell
 					noFill();
-					stroke(255, 255, 255, 200);
-					strokeWeight(3);
+                    stroke(255, 255, 255, 200);
+                    strokeWeight(3);
 					rect(i*caseSize, j*caseSize, caseSize, caseSize, 10)
+                    // range of selected tower 
+                    stroke(255, 255, 255, 50);
+                    let range = assets["towers"][selectedTower]["range"];
+                    let pixel_range = range * canvasWidth/layout.length;
+                    circle(x,y,pixel_range*2);
 				}
 			}
 		}

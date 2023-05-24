@@ -11,11 +11,11 @@ class towerClass {
         this.rotation = 0;
         this.range = assets["towers"][this.tower_id]["range"];
         this.pixel_range = this.range * (canvasWidth/layout[0].length);
+        this.centerX = this.rect_x + this.width_x/2;
+        this.centerY = this.rect_y + this.height_y/2;
     }
     update() {
         // rotate to face nearest enemy
-        this.centerX = this.rect_x + this.width_x/2;
-        this.centerY = this.rect_y + this.height_y/2;
         this.nearestEnemy = returnNearestEnemyInRange(this.pixel_range, this.centerX, this.centerY);
         if( this.nearestEnemy != null){
             let dx = this.nearestEnemy.currentPosX - this.centerX;
@@ -25,7 +25,7 @@ class towerClass {
         // shoot every x frames
         if(frameCount % assets["towers"][this.tower_id]["fireRate"] === 0){
             if(this.nearestEnemy != null){
-                let one_bullet = new bulletClass(this.currentIndex, this.tower_id, this.rotation);
+                let one_bullet = new bulletClass(this.nearestEnemy, this.currentIndex, this.tower_id, this.rotation); 
                 global_data[`level${currentLevel}`]["bulletsTravelling"].push(one_bullet);
             }
         }
@@ -73,16 +73,6 @@ function updateTowers(){
                 one_tower.update();
             }
         }
-    }
-}
-
-function updateBullets(){
-    // for every bullet, update and display it
-    let bullets = global_data[`level${currentLevel}`]["bulletsTravelling"];
-    for(let i = 0; i < bullets.length; i++){
-        let one_bullet = bullets[i];
-        one_bullet.display();
-        one_bullet.update();
     }
 }
 
@@ -161,6 +151,13 @@ function displayTowerPanel(){
                 (indexToPosition([i+1,1],layout)[1]-(canvasWidth /layout[0].length)/2.3)+width_x/2-13,
                 (indexToPosition([i+1,1],layout)[0]-(canvasHeight/layout[0].length)/2.3)+height_y-21.5
             )
+            // greyed out under the line if not enough money
+            if(currentMoney < assets["towers"][tower]["price"]){
+                fill(0,0,0,100);
+                stroke(0,0,0,100);
+                strokeWeight(1);
+                rect(rect_x, rect_y, width_x, height_y);
+            }
 		}
 	}
 	else{
