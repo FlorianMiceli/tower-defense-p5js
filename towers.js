@@ -156,7 +156,9 @@ function displayTowerPanel(){
                 fill(0,0,0,100);
                 stroke(0,0,0,100);
                 strokeWeight(1);
-                rect(rect_x, rect_y, width_x, height_y);
+                let width_greyed_out_x = indexToTopRightHandCornerPostion([i+1,1],layout)[1]-4
+                let height_greyed_out_y = canvasHeight/layout[0].length
+                rect(line_start_x, line_start_y, width_greyed_out_x,height_greyed_out_y);
             }
 		}
 	}

@@ -88,12 +88,16 @@ class enemyClass {
         circle(this.currentPosX, this.currentPosY, 30); 
         // life bar 
         this.max_life = assets["enemies"][this.enemy_id]["life"];
-        this.life_percentage = (this.life / this.max_life)*100;
+        this.life_percentage = (this.life / this.max_life) * 100;
         this.life_bar = map(this.life_percentage, 0, 100, 0, 30);
         stroke(0);
         strokeWeight(1);
-        fill(0, 255, 0); // Green
-        rect(this.currentPosX - 15, this.currentPosY - 25, this.life_bar, 5);
+        fill(255, 255, 255, 100); 
+        rect(this.currentPosX - 15, this.currentPosY - 25, 30, 5); 
+        fill(0, 255, 0); 
+        let lifeDisplay = map(this.life_percentage, 0, 100, 0, 30); 
+        rect(this.currentPosX - 15, this.currentPosY - 25, lifeDisplay, 5);
+        
 
     }
 

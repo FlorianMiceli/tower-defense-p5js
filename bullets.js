@@ -38,6 +38,9 @@ class bulletClass{
         this.centerY += this.velocityY;
         if(this.distanceToTarget < 30){
             this.targetedEnemy.life -= assets["towers"][this.tower_id]["damage"];
+            if(this.targetedEnemy.life <= 0){ 
+                currentMoney += assets["enemies"][this.targetedEnemy.enemy_id]["moneyWhenKilled"];
+            }
             this.destroy();
         }
         if(this.targetedEnemy.life <= 0){ this.destroy() }
@@ -55,6 +58,7 @@ class bulletClass{
         let bullets = global_data[`level${currentLevel}`]["bulletsTravelling"];
         let index = bullets.indexOf(this);
         bullets.splice(index, 1);
+        global_data[`level${currentLevel}`]["bulletsTravelling"] = bullets;
     }
 }
 

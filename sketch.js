@@ -13,18 +13,18 @@ let levelsWon = [];
 
 assets = {
 	"enemies" : {
-		"e1" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 1},
-		"e2" : {"life" : 200, "color" : [0, 106, 255], "speed" : 5},
-		"e3" : {"life" : 500, "color" : [255, 0, 0]  , "speed" : 6},
-		"e4" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 5},
-		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4}
+		"e1" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 1 , "moneyWhenKilled" : 30},
+		"e2" : {"life" : 200, "color" : [0, 106, 255], "speed" : 2 , "moneyWhenKilled" : 80},
+		"e3" : {"life" : 500, "color" : [255, 0, 0]  , "speed" : 2 , "moneyWhenKilled" : 80},
+		"e4" : {"life" : 100, "color" : [255, 0, 0]  , "speed" : 2 , "moneyWhenKilled" : 80},
+		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4 , "moneyWhenKilled" : 30}
 	},
 	"towers" : {
-		"t1" : {"price" : 100 , "title" : "Arc"     ,"range" : 1.5, "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw1", "damage" : 50 },
-		"t2" : {"price" : 200 , "title" : "Archer"  ,"range" : 4  , "fireRate" : 30, "bulletSpeed" : 3 , "bullet" : "tw2", "damage" : 100},
-		"t3" : {"price" : 500 , "title" : "Canon"   ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw3", "damage" : 100},
-		"t4" : {"price" : 1000, "title" : "Minigun" ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw4", "damage" : 100},
-		"t5" : {"price" : 2000, "title" : "RocketX" ,"range" : 2  , "fireRate" : 30, "bulletSpeed" : 10, "bullet" : "tw5", "damage" : 100}
+		"t1" : {"price" : 100 , "title" : "Arc"     ,"range" : 1.5, "fireRate" : 30 , "bulletSpeed" : 10, "bullet" : "tw1", "damage" : 50 },
+		"t2" : {"price" : 200 , "title" : "Archer"  ,"range" : 4  , "fireRate" : 30 , "bulletSpeed" : 3 , "bullet" : "tw2", "damage" : 100},
+		"t3" : {"price" : 500 , "title" : "Canon"   ,"range" : 2  , "fireRate" : 30 , "bulletSpeed" : 10, "bullet" : "tw3", "damage" : 100},
+		"t4" : {"price" : 1000, "title" : "Minigun" ,"range" : 2  , "fireRate" : 5  , "bulletSpeed" : 10, "bullet" : "tw4", "damage" : 100},
+		"t5" : {"price" : 2000, "title" : "RocketX" ,"range" : 2  , "fireRate" : 30 , "bulletSpeed" : 10, "bullet" : "tw5", "damage" : 100}
 	}
 }
 
