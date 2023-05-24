@@ -20,11 +20,11 @@ assets = {
 		"e5" : {"life" : 10 , "color" : [0, 106, 255], "speed" : 4}
 	},
 	"towers" : {
-		"t1" : {"price" : 100,  "title" : "Warda"  , "range" : 1.5, "fireRate" : 10, "bulletSpeed" : 10},
-		"t2" : {"price" : 200,  "title" : "Gleindah" , "range" : 3  , "fireRate" : 10, "bulletSpeed" : 10},
-		"t3" : {"price" : 500,  "title" : "Tchoka"  , "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10},
-		"t4" : {"price" : 1000, "title" : "Blakata", "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10},
-		"t5" : {"price" : 2000, "title" : "Zgoulav", "range" : 2  , "fireRate" : 10, "bulletSpeed" : 10}
+		"t1" : {"price" : 100 , "title" : "Warda"   ,"range" : 1.5, "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw1"},
+		"t2" : {"price" : 200 , "title" : "Gleindah","range" : 3  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw2"},
+		"t3" : {"price" : 500 , "title" : "Tchoka"  ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw3"},
+		"t4" : {"price" : 1000, "title" : "Blakata" ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw4"},
+		"t5" : {"price" : 2000, "title" : "Zgoulav" ,"range" : 2  , "fireRate" : 10, "bulletSpeed" : 10, "bullet" : "tw5"}
 	}
 }
 
@@ -61,9 +61,12 @@ function preload() {
 	font = loadFont('./assets/font.ttf');
 
 	towers_assets = {};
+	bullets_assets = {};
 	let towers_this_level = global_data[`level${currentLevel}`]["towersAvailable"];
 	for(let tower of towers_this_level){
+		let bullet_current_tower = assets["towers"][`${tower}`]["bullet"];
 		towers_assets[`${tower}`] = loadImage(`./assets/towers/${tower}.png`);
+		bullets_assets[`${bullet_current_tower}`] = loadImage(`./assets/bullets/${bullet_current_tower}.png`);
 	}
 
 	tower_panel = loadImage('./assets/selection_panel.png');
@@ -91,6 +94,9 @@ function draw() {
 
 	updateTowers();
 	displayTowerPanel();
+
+	updateBullets();
+
 	
 	// Artifically add an enemy
 	var button = createButton('+1 Enemy');
