@@ -224,6 +224,13 @@ function approxEqual(a, b, precision) {
     return Math.abs(a - b) < precision;
   }
 
+function setMoney(money) {
+    switch(DEBUG) {
+        case true : { currentMoney = Infinity; break; }
+        case false : { currentMoney = money; break; }
+    }
+}
+
 function addEnemyButton() {
 	spawnEnemy("e5");
 }

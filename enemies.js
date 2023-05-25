@@ -18,6 +18,7 @@ class enemyClass {
             [4,1,1,1,1,1,1,1,0,2],
             [2,2,2,2,2,2,2,2,2,2]
         ]; 
+        // this.enemy_layout = [...global_data[`level${currentLevel}`]["layout"]];
         this.enemy_id = enemy_id;
         this.life =  assets["enemies"][enemy_id]["life"];
         this.speed = assets["enemies"][enemy_id]["speed"];
@@ -154,7 +155,7 @@ function waveSpawnEnemies(){
     if(current_wave != undefined){
         for(let enemy in current_wave["enemies"]){
             let nb_to_spawn = current_wave["enemies"][enemy];
-            for (let i = 0; i < nb_to_spawn-1; i++) {
+            for (let i = 0; i <= nb_to_spawn-1; i++) {
                 spawnEnemy(enemy);
             }
         }

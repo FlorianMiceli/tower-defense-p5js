@@ -40,7 +40,7 @@ class towerClass {
             && !tower_panel_opened
         ){
             // black transparent ellipse
-            fill(0,0,0,100);
+            fill(0,0,0,50);
             stroke(0,0,0,100);
             strokeWeight(1);
             ellipse(this.centerX, this.centerY, this.pixel_range*2)
