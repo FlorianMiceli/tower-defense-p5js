@@ -274,11 +274,13 @@ function handleGameLost(){
     if (currentHealth <= 0) {
         global_data[`level${currentLevel}`]["enemiesAlive"] = [];
         setLives(global_data[`level${currentLevel}`]["startingLives"]);
+        preload()
         currentView = "gameLost";
     }
 }
 
 function startLevel(){
+	currentLevelImg = loadImage(`./assets/levels/level${currentLevel}.png`);
 	setMoney(global_data[`level${currentLevel}`]["startingMoney"]);
     setLives(global_data[`level${currentLevel}`]["startingLives"]);
 }

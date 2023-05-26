@@ -34,8 +34,8 @@ function levelSelect_tick(){
             rect(49, 120*i - (i-1)*50, 602, 70);
             if(mouseIsPressed){
                 currentLevel = i.toString();
-                currentView = "level";
                 startLevel();
+                currentView = "level";
             }
         }
         // show 'Level won : true' if level already won (with true in green and false in red)

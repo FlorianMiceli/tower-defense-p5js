@@ -56,8 +56,8 @@ global_data = {
             "1" : { "enemies" : { "e1" : 5 } },
             "2" : { "enemies" : { "e1" : 3, "e2" : 3} },
             "3" : { "enemies" : { "e3" : 4} },
-            "4" : { "enemies" : { "e1" : 10, "e2" : 7, "e3" : 3} },
-			"5" : { "enemies" : { "e4" : 5} },
+            "4" : { "enemies" : { "e1" : 7, "e2" : 5, "e3" : 1} },
+			"5" : { "enemies" : { "e4" : 3} },
 			"6" : { "enemies" : { "e2" : 10, "e3" : 5, "e4" : 2} },
 			"7" : { "enemies" : { "e1" : 30, "e5" : 5} },
 			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 2} },
@@ -68,7 +68,7 @@ global_data = {
 };
 
 function preload() {
-	currentLevelImg = loadImage(`./levels/level${currentLevel}.png`);
+	currentLevelImg = loadImage(`./assets/levels/level${currentLevel}.png`);
 	font = loadFont('./assets/font.ttf');
 
 	levelsAvailable = [];

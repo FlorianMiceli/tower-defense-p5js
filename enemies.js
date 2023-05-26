@@ -161,12 +161,12 @@ function wavesEndDetection(){
     let waves = global_data[`level${currentLevel}`]["waves"];
     let enemiesAlive = global_data[`level${currentLevel}`]["enemiesAlive"];
     let nb_waves = Object.keys(waves).length;
-    let levelAlreadyWon = global_data[`level${currentLevel}`]["levelAlreadyWon"];
-    if(nb_waves == currentWave && enemiesAlive.length == 0){
+    if(nb_waves == currentWave && enemiesAlive.length == 0 && currentHealth != 0){
         console.log('end of waves')
         global_data[`level${currentLevel}`]["levelAlreadyWon"] = true;
         global_data[`level${currentLevel}`]["enemiesAlive"] = [];
         setLives(global_data[`level${currentLevel}`]["startingLives"]);
+        currentWave = 0;
         currentView = "gameWon";
     }
 }
