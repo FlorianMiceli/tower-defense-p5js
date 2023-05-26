@@ -25,7 +25,7 @@ assets = {
     },
 	"towers" : {
 		"t1" : {"price" : 150 , "title" : "Lance-\nPierre", "range" : 1.5 , "fireRate" : 30, "bulletSpeed" : 7 , "bullet" : "tw1", "damage" : 80 },
-		"t2" : {"price" : 200 , "title" : "Archer"        , "range" : 4   , "fireRate" : 75, "bulletSpeed" : 10, "bullet" : "tw2", "damage" : 190},
+		"t2" : {"price" : 200 , "title" : "Archer"        , "range" : 4   , "fireRate" : 40, "bulletSpeed" : 10, "bullet" : "tw2", "damage" : 190},
 		"t3" : {"price" : 500 , "title" : "Canon"         , "range" : 2.5 , "fireRate" : 75, "bulletSpeed" : 20, "bullet" : "tw3", "damage" : 250},
 		"t4" : {"price" : 800 , "title" : "Minigun"       , "range" : 1.75, "fireRate" : 5 , "bulletSpeed" : 10, "bullet" : "tw4", "damage" : 20 },
 		"t5" : {"price" : 2000, "title" : "RocketX"       , "range" : 6   , "fireRate" : 60, "bulletSpeed" : 3 , "bullet" : "tw5", "damage" : 500}
