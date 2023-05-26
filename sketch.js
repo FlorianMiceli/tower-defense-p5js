@@ -17,11 +17,11 @@ let redFlashToggle = false;
 
 assets = {
 	"enemies" : {
-        "e1" : {"life" : 100 , "color" : [0  , 255, 255], "speed" : 1   , "moneyWhenKilled" : 30 },
-        "e2" : {"life" : 200 , "color" : [187, 255, 0  ], "speed" : 1   , "moneyWhenKilled" : 50 },
-        "e3" : {"life" : 200 , "color" : [255, 0  , 0  ], "speed" : 2   , "moneyWhenKilled" : 70 },
-        "e4" : {"life" : 75  , "color" : [0  , 106, 255], "speed" : 3   , "moneyWhenKilled" : 100},
-        "e5" : {"life" : 1000, "color" : [0  , 0  , 0  ], "speed" : 0.75, "moneyWhenKilled" : 300}
+		"e1" : {"life" : 100 , "color" : [0  , 255, 255], "speed" : 1   , "moneyWhenKilled" : 30 },
+		"e2" : {"life" : 200 , "color" : [187, 255, 0  ], "speed" : 1   , "moneyWhenKilled" : 50 },
+		"e3" : {"life" : 200 , "color" : [255, 0  , 0  ], "speed" : 2   , "moneyWhenKilled" : 70 },
+		"e4" : {"life" : 75  , "color" : [0  , 106, 255], "speed" : 3   , "moneyWhenKilled" : 100},
+		"e5" : {"life" : 1000, "color" : [0  , 0  , 0  ], "speed" : 0.75, "moneyWhenKilled" : 300}
     },
 	"towers" : {
 		"t1" : {"price" : 150 , "title" : "Lance-\nPierre", "range" : 1.5 , "fireRate" : 30, "bulletSpeed" : 7 , "bullet" : "tw1", "damage" : 80 },
@@ -61,7 +61,7 @@ global_data = {
 			"6" : { "enemies" : { "e2" : 10, "e3" : 5, "e4" : 2} },
 			"7" : { "enemies" : { "e1" : 30, "e5" : 5} },
 			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 7} }
-        },
+		},
 		"startingMoney" : 400,
 		"levelAlreadyWon" : false 
 	}
