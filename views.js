@@ -45,11 +45,6 @@ function levelSelect_tick(){
         textSize(12);
         textFont(font);
         text(`${won}`, 578, 120*i - (i-1)*50 +43);
-
-
-
-        
-
     }
     // last lign
     i++;

@@ -49,7 +49,6 @@ global_data = {
         ],
         "background": "level1.png",
         "enemiesAlive" : [],
-		"towersPlaced" : [],
 		"bulletsTravelling" : [],
 		"towersAvailable" : ["t1", "t2", "t3", "t4", "t5"],
 		"waves" : {

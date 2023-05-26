@@ -130,51 +130,6 @@ function positionToIndex(position,layout) {
     }
 }
 
-function findClosestPath(layout, startX, startY) {
-	const queue = [{ x: startX, y: startY, dist: 0 }];
-	const visited = new Set();
-	visited.add(`${startX},${startY}`);
-  
-	while (queue.length > 0) {
-	    const { x, y, dist } = queue.shift();
-
-        // verify if layout is defined
-        if(layout[x] == undefined || layout[y] == undefined){
-            return "RI2";
-        }
-  
-	    // Check if we've found a path
-        if (layout[x][y] === undefined || layout[x][y] === 1 || layout[x][y] === 4) {
-            return { x, y, dist};
-        }
-  
-        // Add unvisited neighbors to the queue
-        const neighbors = [
-            { x: x - 1, y: y },
-            { x: x + 1, y: y },
-            { x: x, y: y - 1 },
-            { x: x, y: y + 1 },
-        ];
-        for (const neighbor of neighbors) {
-            const key = `${neighbor.x},${neighbor.y}`;
-            if (
-            neighbor.x >= 0 &&
-            neighbor.x < layout.length &&
-            neighbor.y >= 0 &&
-            neighbor.y < layout[0].length &&
-            layout[neighbor.x][neighbor.y] !== 0 &&
-            !visited.has(key)
-            ) {
-            queue.push({ ...neighbor, dist: dist + 1 });
-            visited.add(key);
-            }
-        }
-    }
-    
-    // No path found
-    return "RI1";
-}
-
 function findOnlyIndex(layout,value) {
 	for(let i = 0; i < layout.length; i++) {
 		for(let j = 0; j < layout[i].length; j++) {
@@ -276,6 +231,20 @@ function handleGameLost(){
         setLives(global_data[`level${currentLevel}`]["startingLives"]);
         preload()
         currentView = "gameLost";
+    }
+}
+
+function wavesEndDetection(){
+    let waves = global_data[`level${currentLevel}`]["waves"];
+    let enemiesAlive = global_data[`level${currentLevel}`]["enemiesAlive"];
+    let nb_waves = Object.keys(waves).length;
+    if(nb_waves == currentWave && enemiesAlive.length == 0 && currentHealth != 0){
+        console.log('end of waves')
+        global_data[`level${currentLevel}`]["levelAlreadyWon"] = true;
+        global_data[`level${currentLevel}`]["enemiesAlive"] = [];
+        setLives(global_data[`level${currentLevel}`]["startingLives"]);
+        currentWave = 0;
+        currentView = "gameWon";
     }
 }
 
