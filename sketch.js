@@ -60,7 +60,7 @@ global_data = {
 			"5" : { "enemies" : { "e3" : 3, "e4" : 5} },
 			"6" : { "enemies" : { "e2" : 10, "e3" : 5, "e4" : 2} },
 			"7" : { "enemies" : { "e1" : 30, "e5" : 5} },
-			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 2} },
+			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 7} },
         },
 		"startingMoney" : 400,
 		"levelAlreadyWon" : false 
