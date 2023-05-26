@@ -49,7 +49,6 @@ class bulletClass{
         this.rotation = Math.atan2(this.velocityY, this.velocityX) + radians(90);
     }
     display() {
-        // ellipse(this.centerX, this.centerY, 10, 10);
         let bulletStartX = this.centerX - this.width_x/2;
         let bulletStartY = this.centerY - this.height_y/2;
         displayWithRotation(this.img, bulletStartX, bulletStartY, this.width_x, this.height_y, this.rotation);

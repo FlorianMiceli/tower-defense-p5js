@@ -1,18 +1,19 @@
-const DEBUG = true;
+const DEBUG = false;
 
 // game variables
 let canvasWidth = 700;
 let canvasHeight = 700;
-let currentView = "level";
-let currentLevel = "1";
+let currentView = "startMenu";
+let currentLevel = '1';
 let currentMoney;
 let currentHealth = 5;
 let gameBoard;
 let currentWave = 0;
 let selectedTower = 't1';
 let tower_panel_opened = false;
-let levelsWon = [];
 let assets;
+let redFlashFrameCount = 0;
+let redFlashToggle = false;
 
 assets = {
 	"enemies" : {
@@ -33,7 +34,7 @@ assets = {
 
 global_data = {
     "level1" : 
-        { 
+        {
         "layout": [
             [2,2,2,2,2,2,2,2,2,2],
             [2,0,1,1,1,1,1,1,1,3],
@@ -61,13 +62,19 @@ global_data = {
 			"7" : { "enemies" : { "e1" : 30, "e5" : 5} },
 			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 2} },
         },
-		"startingMoney" : 400
+		"startingMoney" : 400,
+		"levelAlreadyWon" : false 
 	}
 };
 
 function preload() {
 	currentLevelImg = loadImage(`./levels/level${currentLevel}.png`);
 	font = loadFont('./assets/font.ttf');
+
+	levelsAvailable = [];
+	for(let level in global_data){
+		levelsAvailable.push(level);
+	}
 
 	towers_assets = {};
 	bullets_assets = {};
@@ -78,26 +85,30 @@ function preload() {
 		bullets_assets[`${bullet_current_tower}`] = loadImage(`./assets/bullets/${bullet_current_tower}.png`);
 	}
 
-	tower_panel = loadImage('./assets/selection_panel.png');
 	play_button = loadImage('./assets/play_button.png');
+	home_menu_button = loadImage('./assets/home_menu_button.png');
+	tower_panel = loadImage('./assets/selection_panel.png');
+	start_wave_button = loadImage('./assets/start_wave_button.png');
 	range_icon = loadImage('./assets/range_icon.png');
 
 	startMenu = loadImage('./assets/backgrounds/startMenu.png');
-
+	gameLost = loadImage('./assets/backgrounds/gameLost.png');
+	gameWon = loadImage('./assets/backgrounds/gameWon.png');
+	select_levels_panel = loadImage('./assets/select_levels_panel.png');
 }
 
 function setup() {
 	frameRate(60);
 	createCanvas(canvasWidth, canvasHeight);
-	setMoney(global_data[`level${currentLevel}`]["startingMoney"]);
 }
 
 function draw() {
 	switch (currentView) {
-		case "startMenu": 	{ startMenu_tick();	break; }
-		case "level": 		{ inGame_tick();	break; }
-		case "gameLost": 	{ gameLost_tick();	break; }
-		case "gameWon": 	{ gameWon_tick(); 	break; } 
+		case "startMenu": 	{ startMenu_tick();	  break; }
+		case "levelSelect": { levelSelect_tick(); break; }
+		case "level": 		{ inGame_tick();	  break; }
+		case "gameLost": 	{ gameLost_tick();	  break; }
+		case "gameWon": 	{ gameWon_tick(); 	  break; }
 		default: 			{ throw new Error("Invalid view"); }
 	}
 }

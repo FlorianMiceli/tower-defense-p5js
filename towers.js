@@ -56,7 +56,6 @@ function clickToPlaceTower(x,y){
         layout[index[0]][index[1]] === 0
         && currentMoney >= price_selected_tower
     ){
-        // global_data[`level${currentLevel}`]['layout'][index[0]][index[1]] = selectedTower;
         global_data[`level${currentLevel}`]['layout'][index[0]][index[1]] = new towerClass(index, selectedTower);
         currentMoney -= price_selected_tower;
     }

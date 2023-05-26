@@ -36,6 +36,7 @@ class enemyClass {
             this.life = 0;
             this.destroy();
             currentHealth -= 1;
+            redFlashToggle = true;
         }
         else {
             //init 
@@ -129,17 +130,11 @@ function displayWaveInterface() {
     text(`Wave ${currentWave}`, canvasWidth-canvasWidth/4.1, 23);
     let enemiesAlive = global_data[`level${currentLevel}`]["enemiesAlive"];
     if(enemiesAlive.length == 0){
-        image(play_button, canvasWidth-canvasWidth/7.3, 10, 16,16);  
+        // image getting bigger then smaller over time
+        image(start_wave_button, canvasWidth-canvasWidth/7.3, 10, 16,16);
     }else{
-        image(play_button, canvasWidth-canvasWidth/8, 10, 16,16);  
-        image(play_button, canvasWidth-canvasWidth/7.3, 10, 16,16);  
-    }
-}
-
-function handleWaves(){
-    let waves = global_data[`level${currentLevel}`]["waves"];
-    if(currentWave != 0){
-        
+        image(start_wave_button, canvasWidth-canvasWidth/8, 10, 16,16);  
+        image(start_wave_button, canvasWidth-canvasWidth/7.3, 10, 16,16);  
     }
 }
 
@@ -166,9 +161,12 @@ function wavesEndDetection(){
     let waves = global_data[`level${currentLevel}`]["waves"];
     let enemiesAlive = global_data[`level${currentLevel}`]["enemiesAlive"];
     let nb_waves = Object.keys(waves).length;
+    let levelAlreadyWon = global_data[`level${currentLevel}`]["levelAlreadyWon"];
     if(nb_waves == currentWave && enemiesAlive.length == 0){
-        levelsWon.push(currentLevel);
-        // currentLevel = "start";
         console.log('end of waves')
+        global_data[`level${currentLevel}`]["levelAlreadyWon"] = true;
+        global_data[`level${currentLevel}`]["enemiesAlive"] = [];
+        setLives(global_data[`level${currentLevel}`]["startingLives"]);
+        currentView = "gameWon";
     }
 }

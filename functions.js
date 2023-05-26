@@ -1,12 +1,20 @@
 function mousePressed() {
 	// Place tower
-	if (!tower_panel_opened) { clickToPlaceTower(mouseX,mouseY) };
+	if (!tower_panel_opened && currentView === "level") { clickToPlaceTower(mouseX,mouseY) };
     // open tower panel
-    if(mouseX > 15 && mouseY > 5 && mouseX < 59 && mouseY < 43 && !tower_panel_opened){ switchTowerPanel(); }
+    if(
+        mouseX > 15 && mouseY > 5 && mouseX < 59 && mouseY < 43 
+        && !tower_panel_opened
+        && currentView === "level"
+    ){ switchTowerPanel(); }
     // close tower panel
-    if(mouseX > 113 && mouseY > 47 && mouseX < 135 && mouseY < 71 && tower_panel_opened){ switchTowerPanel(); }
+    if(
+        mouseX > 113 && mouseY > 47 && mouseX < 135 && mouseY < 71 
+        && tower_panel_opened
+        && currentView === "level"
+    ){ switchTowerPanel(); }
     // select tower
-    if(tower_panel_opened){ 
+    if(tower_panel_opened && currentView === "level"){ 
         let layout = global_data[`level${currentLevel}`]["layout"];
         let towers = global_data[`level${currentLevel}`]["towersAvailable"];
         let nb_towers = towers.length;
@@ -21,19 +29,29 @@ function mousePressed() {
                 tower_panel_opened = false;
             }
         }
+    
     }
     // start or skip wave
     let nb_waves = Object.keys(global_data[`level${currentLevel}`]["waves"]).length;
     if(
         mouseX > 595 && mouseY > 0 && mouseX < 638 && mouseY < 33
         && (nb_waves != currentWave)
+        && currentView === "level"
     ){
         currentWave += 1;
         waveSpawnEnemies();
     }
+    // play button
+    if(
+        currentView === "startMenu"
+        && mouseX > 219 && mouseY > 573 && mouseX < 478 && mouseY < 832
+    ){
+        currentView = "levelSelect";
+    }
 }
 
-function displayGrid(layout) {
+function displayGrid() {
+    let layout = global_data[`level${currentLevel}`]["layout"];
 	// Draw the game board using rectangles or images
 	let caseSize = canvasHeight / layout.length;
 	for(let i = 0; i < layout.length; i++){
@@ -57,6 +75,16 @@ function displayGrid(layout) {
                     let range = assets["towers"][selectedTower]["range"];
                     let pixel_range = range * canvasWidth/layout.length;
                     circle(x,y,pixel_range*2);
+                    // selected tower greyed out
+                    let rect_x = indexToPosition([j,i],layout)[1]-(canvasWidth /layout[0].length)/2.3;
+                    let rect_y = indexToPosition([j,i],layout)[0]-(canvasWidth /layout[0].length)/2.3;
+                    let width_x = (canvasWidth/layout[0].length)/1.15;
+                    let width_y = (canvasWidth/layout[0].length)/1.15;
+                    let tower_cost = assets["towers"][selectedTower]["price"];
+                    if(tower_cost > currentMoney){ tint(255,0,0,200) } else { tint(255, 100) };
+                    image(towers_assets[`${selectedTower}`], rect_x, rect_y, width_x, width_y);
+                    noTint();
+
 				}
 			}
 		}
@@ -231,8 +259,46 @@ function setMoney(money) {
     }
 }
 
+function setLives(lives) {
+    switch(DEBUG) {
+        case true : { currentLives = Infinity; break; }
+        case false : { currentLives = lives; break; }
+    }
+}
+
+function showInterfaceButton(button){
+    image(button, 216, 570, 266, 65);
+}
+
+function handleGameLost(){
+    if (currentHealth <= 0) {
+        global_data[`level${currentLevel}`]["enemiesAlive"] = [];
+        setLives(global_data[`level${currentLevel}`]["startingLives"]);
+        currentView = "gameLost";
+    }
+}
+
+function startLevel(){
+	setMoney(global_data[`level${currentLevel}`]["startingMoney"]);
+    setLives(global_data[`level${currentLevel}`]["startingLives"]);
+}
+
+function redFlashes(frames){
+    if(redFlashToggle == true){
+        redFlashToggle = false
+        redFlashFrameCount = frameCount;
+        console.log(redFlashFrameCount);
+    }
+    if ((frameCount - redFlashFrameCount) < frames) {
+        fill(255, 0, 0, 100);
+        rect(0, 0, canvasWidth, canvasHeight);
+    } 
+}
+
+// DEBUG -------------------------------------------------
+
 function addEnemyButton() {
-	spawnEnemy("e5");
+	spawnEnemy("e4");
 }
 
 function clearEnemiesButton() {
