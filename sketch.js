@@ -53,14 +53,14 @@ global_data = {
 		"bulletsTravelling" : [],
 		"towersAvailable" : ["t1", "t2", "t3", "t4", "t5"],
 		"waves" : {
-            "1" : { "enemies" : { "e1" : 5 } },
-            "2" : { "enemies" : { "e1" : 3, "e2" : 3} },
-            "3" : { "enemies" : { "e1" : 2, "e2" : 2 , "e3" : 4} }, 
-            "4" : { "enemies" : { "e1" : 7, "e2" : 5, "e3" : 1} },
+			"1" : { "enemies" : { "e1" : 5 } },
+			"2" : { "enemies" : { "e1" : 3, "e2" : 3} },
+			"3" : { "enemies" : { "e1" : 2, "e2" : 2 , "e3" : 4} },
+			"4" : { "enemies" : { "e1" : 7, "e2" : 5, "e3" : 1} },
 			"5" : { "enemies" : { "e3" : 3, "e4" : 5} },
 			"6" : { "enemies" : { "e2" : 10, "e3" : 5, "e4" : 2} },
 			"7" : { "enemies" : { "e1" : 30, "e5" : 5} },
-			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 7} },
+			"8" : { "enemies" : { "e2" : 20, "e3" : 10, "e4" : 5, "e5" : 7} }
         },
 		"startingMoney" : 400,
 		"levelAlreadyWon" : false 
